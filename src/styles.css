@@ -1,1 +1,114 @@
-/* You can add global styles to this file, and also import other style files */
+@font-face {
+  font-family: "MonteseratRegular";
+  src: url("./fonts/Montserrat/Montserrat-Regular.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+}
+@font-face {
+  font-family: "MonteseratSemiBold";
+  src: url("./fonts/Montserrat/Montserrat-SemiBold.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 600;
+}
+
+:root {
+  --purple: #5e56e7;
+  --purplelight: #f8f7ff;
+  --darkgrey: #333;
+  --mediumgrey: #a0a0a0;
+  --lightgrey: #f0f0f6;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: "MonteseratRegular", Helvetica, sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 16px;
+  background-color: var(--purplelight);
+  margin: 0;
+  padding: 0;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.ft600 {
+  font-family: "MonteseratSemiBold", Helvetica, sans-serif;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.heading1 {
+  font-size: 48px;
+  color: var(--purple);
+}
+
+.heading2 {
+  font-size: 30px;
+}
+
+.block {
+  display: block;
+}
+
+.center-box {
+  max-width: 70%;
+  margin: 10px auto;
+}
+
+@media (max-width: 900px) {
+  .center-box {
+    max-width: 100%;
+    margin: 10px 15px;
+  }
+}
+
+.home-content {
+    padding: 15px 0;
+}
+
+.genre-card {
+  display: flex;
+  background-color: #fff;
+  align-items: center;
+  border-radius: 4px;
+  padding: 0 10px;
+  margin: 15px 0;
+  height: 50px;
+  font-size: 20px;
+  flex-basis: 450px;
+  box-shadow: 0 2px 5px 0 rgba(211, 209, 238, 0.5);
+}
+.genre-card img {
+    height: 20px;
+    width: auto;
+    padding-right: 10px;
+}
+.genre-card .next {
+    margin-left: auto;
+    padding-right: 0;
+}
+.genre-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.home-heading {
+  background-image: url("./assets/Pattern.svg");
+  background-position: center center;
+  background-size: cover;
+  padding: 15px 0;
+}
+
+.home-heading .heading1 {
+  margin-top: 50px;
+}
