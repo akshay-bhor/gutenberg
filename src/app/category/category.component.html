@@ -5,17 +5,27 @@
         <a routerLink="/"><img src="../../assets/Back.svg" alt="Back" /></a>
         {{ category | titlecase }}
       </span>
+      <!-- search box -->
+      <div class="block">
+        <input type="text" name="search" [(ngModel)]="sQuery" (keyup)="search()" class="search ft600" placeholder="Search" autocomplete="off" />
+        <div class="cross" (click)="clearSearch()">
+          <img src="../../assets/Cancel.svg" alt="Clear" style="width:16px;" *ngIf="sQuery" />
+        </div>
+        <div class="clr"></div>
+      </div>
     </div>
   </div>
 
   <div class="home-content">
     <div class="center-box block">
 
-      <div class="genre-container" *ngIf="!initloading && bookRes">
-        <div class="book-card" *ngFor="let res of bookRes">
-            <img src="{{ res.formats['image/jpeg'] }}" alt="">
-            <span class="block name ft600">{{ res.title }}</span>
-            <span class="block author ft600">{{ res.authors[0]?.name }}</span>
+      <div class="book-cards-container" *ngIf="!initloading && bookRes">
+        <div class="card-box" *ngFor="let res of bookRes">
+          <div class="book-card">
+              <img src="{{ res.formats['image/jpeg'] }}" alt="">
+              <span class="block name ft600">{{ res.title }}</span>
+              <span class="block author ft600">{{ res.authors[0]?.name }}</span>
+          </div>
         </div>
       </div>
 

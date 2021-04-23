@@ -1,7 +1,7 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { Subscription } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 interface booksApi {
     "count": number,
@@ -20,6 +20,7 @@ export class CategoryComponent implements OnInit {
   initloading: boolean = false;
   category: string = '';
   httpSubscription?: Subscription;
+  sQuery:string = '';
   bookRes?: any;
   page: number = 1;
   prev:string | null = '';
@@ -32,10 +33,10 @@ export class CategoryComponent implements OnInit {
     this.category = this.route.snapshot.paramMap.get('category')!;
 
     // Fetch
-    this.fetchBooks(this.category);
+    this.fetchBooks();
   }
 
-  fetchBooks(category: string) {
+  fetchBooks() {
     if(this.loading || this.initloading) return;
 
     // Cancel old subs
@@ -72,15 +73,36 @@ export class CategoryComponent implements OnInit {
     });
   }
 
+  search() {
+    if(this.loading || this.initloading) {
+      this.cleanUp();
+    }  
+
+    this.next = 'http://gutendex.com/books/?mime_type=image&topic=' + this.category + '&search=' + this.sQuery;
+
+    this.page = 1;
+
+    this.fetchBooks();
+  }
+
+  clearSearch() {
+    this.cleanUp();
+    this.page = 1;
+    this.sQuery = '';
+    this.next = 'http://gutendex.com/books/?mime_type=image&topic=' + this.category;
+    this.fetchBooks();
+  }
+
   @HostListener("window:scroll", [])
   onScroll(): void {
   if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-        this.fetchBooks(this.category);
+        this.fetchBooks();
       }
   }
 
   cleanUp() {
     this.loading = false;
+    this.initloading = false;
     if(this.httpSubscription)
       this.httpSubscription.unsubscribe();
   }
