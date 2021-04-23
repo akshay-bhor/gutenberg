@@ -1,3 +1,5 @@
+"NOTE": If `npm install` gives dependency errors just run it `npm install --force` with force flag.
+
 # Gutenberg
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.0.7.
