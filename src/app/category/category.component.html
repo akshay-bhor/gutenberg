@@ -1,0 +1,35 @@
+<div class="block">
+  <div class="cat-heading block">
+    <div class="center-box block">
+      <span class="heading2 ft600 block">
+        <a routerLink="/"><img src="../../assets/Back.svg" alt="Back" /></a>
+        {{ category | titlecase }}
+      </span>
+    </div>
+  </div>
+
+  <div class="home-content">
+    <div class="center-box block">
+
+      <div class="genre-container" *ngIf="!initloading && bookRes">
+        <div class="book-card" *ngFor="let res of bookRes">
+            <img src="{{ res.formats['image/jpeg'] }}" alt="">
+            <span class="block name ft600">{{ res.title }}</span>
+            <span class="block author ft600">{{ res.authors[0]?.name }}</span>
+        </div>
+      </div>
+
+      <!-- Loader -->
+      <div class="loader" *ngIf="loading">
+        <div class="loadingio-spinner-pulse-hacjbkvwxc">
+          <div class="ldio-wz2uu8gzale">
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
