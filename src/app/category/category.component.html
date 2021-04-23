@@ -21,7 +21,7 @@
 
       <div class="book-cards-container" *ngIf="!initloading && bookRes">
         <div class="card-box" *ngFor="let res of bookRes">
-          <div class="book-card">
+          <div class="book-card" (click)="openLink(res.formats);">
               <img src="{{ res.formats['image/jpeg'] }}" alt="">
               <span class="block name ft600">{{ res.title }}</span>
               <span class="block author ft600">{{ res.authors[0]?.name }}</span>
@@ -39,6 +39,9 @@
           </div>
         </div>
       </div>
+
+      <!-- Toast -->
+      <div class="toast ft600" *ngIf="errMsg">{{errMsg}}</div>
 
     </div>
   </div>

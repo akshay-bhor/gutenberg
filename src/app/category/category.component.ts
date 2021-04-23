@@ -24,14 +24,15 @@ export class CategoryComponent implements OnInit {
   bookRes?: any;
   page: number = 1;
   prev:string | null = '';
-  next: string | null = 'http://gutendex.com/books/?mime_type=image&topic=' + this.category;
+  next: string | null = '';
+  errMsg = '';
 
   constructor(private route: ActivatedRoute, private http: HttpClient) { }
 
   ngOnInit(): void {
     // Get route param
     this.category = this.route.snapshot.paramMap.get('category')!;
-
+    this.next = 'http://gutendex.com/books/?mime_type=image&topic=' + this.category;
     // Fetch
     this.fetchBooks();
   }
@@ -50,6 +51,11 @@ export class CategoryComponent implements OnInit {
       this.initloading = true;
     let url = this.next;
     this.httpSubscription = this.http.get<booksApi>(url).subscribe(res => {
+      // Check values length
+      if(res.results.length < 1) {
+        this.showAlert('No books found!');
+      }
+
       // Remember to append it don't overwrite it
       if(this.page == 1) {
         this.bookRes = res.results;
@@ -57,7 +63,7 @@ export class CategoryComponent implements OnInit {
       else { // Merge two
         this.bookRes = [...this.bookRes, ...res.results];
     }
-
+    console.log(this.bookRes);
       // next prev
       this.prev = res.previous;
       this.next = res.next;
@@ -68,6 +74,7 @@ export class CategoryComponent implements OnInit {
     },
     (err) => {
       console.log(err);
+      this.showAlert(err.statusText);
       this.loading = false;
       this.initloading = false;
     });
@@ -85,6 +92,42 @@ export class CategoryComponent implements OnInit {
     this.fetchBooks();
   }
 
+  openLink(formats:any) {
+    // Html PDF Text
+
+    // Find html key
+    const htmlKey = Object.keys(formats).find(key => {
+      if(key == 'text/html') return key;
+      if(key.split(';')[0] == 'text/html') return key;
+      return null;
+    });
+    // Find Text key
+    const textKey = Object.keys(formats).find(key => {
+      if(key == 'text/plain') return key;
+      if(key.split(';')[0] == 'text/plain') return key;
+      return null;
+    });
+
+    if(htmlKey && formats[htmlKey]) {
+      window.open(formats[htmlKey], '_blank');
+    }
+    else if(formats['application/pdf']) {
+      window.open(formats['text/html; charset=utf-8'], '_blank');
+    }
+    else if(textKey && formats[textKey]) {
+      window.open(formats[textKey], '_blank');
+    }
+    else {
+      // Show err
+      this.showAlert('No viewable version available');
+    }
+  }
+
+  showAlert(errMsg:string) { console.log(errMsg)
+    this.errMsg = errMsg;
+    setTimeout(() => this.errMsg = '', 3000);
+  }
+
   clearSearch() {
     this.cleanUp();
     this.page = 1;
@@ -95,14 +138,15 @@ export class CategoryComponent implements OnInit {
 
   @HostListener("window:scroll", [])
   onScroll(): void {
-  if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+  if((window.innerHeight + window.scrollY) >= (document.body.scrollHeight - 50)) {
         this.fetchBooks();
-      }
+    }
   }
 
   cleanUp() {
     this.loading = false;
     this.initloading = false;
+    this.errMsg = '';
     if(this.httpSubscription)
       this.httpSubscription.unsubscribe();
   }

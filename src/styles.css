@@ -137,6 +137,7 @@ a {
   flex-direction: column;
   height: 250px;
   margin: 20px 5px;
+  cursor: pointer;
 }
 @media(max-width:768px) {
   .book-cards-container {
@@ -214,6 +215,21 @@ a {
   border-right: 2px solid var(--purple);
   border-top: 2px solid var(--purple);
   border-bottom: 2px solid var(--purple);
+}
+.toast {
+  min-width: 250px;
+  margin-left: -125px;
+  background-color: rgb(185, 68, 68);
+  color: #fff;
+  text-align: center;
+  border-radius: 2px;
+  padding: 16px;
+  position: fixed;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px 0 rgba(211, 209, 238, 0.5);
+  z-index: 1;
+  left: 50%;
+  bottom: 30px;
 }
 .clr {
   float: unset;
